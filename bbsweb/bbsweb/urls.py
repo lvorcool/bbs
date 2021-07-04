@@ -40,5 +40,6 @@ urlpatterns = [
 
     # 配置业务接口
     path('admin/', admin.site.urls),
-    path('', include('usersmanage.urls'))
+    path('api/v1/users/', include('usersmanage.urls')),
+    path('api/v1/articles/', include('articles.urls'))
 ]
