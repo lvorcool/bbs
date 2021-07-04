@@ -11,6 +11,14 @@ class ArticlesSerializer(serializers.HyperlinkedModelSerializer):
         fields = ['url', 'id', 'user_id', 'title', 'create_time', 'main_body', 'owner']
 
 
+class ArticlesSerializerV2(serializers.HyperlinkedModelSerializer):
+    owner = serializers.ReadOnlyField(source='user_id.username')
+
+    class Meta:
+        model = Articles
+        fields = ['url', 'id', 'user_id', 'title', 'main_body', 'owner']
+
+
 class CommentsSerializer(serializers.HyperlinkedModelSerializer):
     articles = serializers.PrimaryKeyRelatedField(many=True, queryset=Articles.objects.all())
 

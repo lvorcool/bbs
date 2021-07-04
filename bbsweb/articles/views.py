@@ -1,5 +1,3 @@
-from django.shortcuts import render
-
 # Create your views here.
 from rest_framework import viewsets, permissions
 from rest_framework.decorators import api_view
@@ -8,7 +6,7 @@ from rest_framework.reverse import reverse
 
 from .models import Articles, Comments
 from .permissions import IsOwnerOrReadOnly
-from .serializers import ArticlesSerializer, CommentsSerializer
+from .serializers import ArticlesSerializer, CommentsSerializer, ArticlesSerializerV2
 
 
 class ArticleAPIViewSet(viewsets.ModelViewSet):
@@ -19,6 +17,11 @@ class ArticleAPIViewSet(viewsets.ModelViewSet):
     serializer_class = ArticlesSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly,
                           IsOwnerOrReadOnly]
+
+    def get_serializer_class(self):
+        if self.request.version == "v2":
+            return ArticlesSerializerV2
+        return self.serializer_class
 
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
