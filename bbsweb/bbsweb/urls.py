@@ -18,14 +18,16 @@ from django.urls import path, include, re_path
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 from rest_framework import permissions
+from rest_framework.documentation import include_docs_urls
+
 
 schema_view = get_schema_view(
     openapi.Info(
         title="BBS WEB API",
         default_version='v1',
         description="论坛系统接口文档",
-        terms_of_service="https://www.google.com/policies/terms/",
-        contact=openapi.Contact(email="contact@snippets.local"),
+        # terms_of_service="https://www.google.com/policies/terms/",
+        contact=openapi.Contact(email="wang.nlqf@163.com"),
         license=openapi.License(name="BSD License"),
     ),
     public=True,
@@ -41,5 +43,7 @@ urlpatterns = [
     # 配置业务接口
     path('admin/', admin.site.urls),
     path('api/users/', include('usersmanage.urls')),
-    path('api/articles/', include('articles.urls'))
+    path('api/articles/', include('articles.urls')),
+    path('api-auth', include('rest_framework.urls', namespace='rest_framework')),
+    path('docs', include_docs_urls(title='BBS')),
 ]

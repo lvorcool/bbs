@@ -4,7 +4,7 @@ from .models import Articles, Comments
 
 
 class ArticlesSerializer(serializers.HyperlinkedModelSerializer):
-    owner = serializers.ReadOnlyField(source='user_id.username')
+    owner = serializers.ReadOnlyField(source='owner.username')
 
     class Meta:
         model = Articles
@@ -12,7 +12,7 @@ class ArticlesSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class ArticlesSerializerV2(serializers.HyperlinkedModelSerializer):
-    owner = serializers.ReadOnlyField(source='user_id.username')
+    owner = serializers.ReadOnlyField(source='owner.username')
 
     class Meta:
         model = Articles
@@ -20,8 +20,6 @@ class ArticlesSerializerV2(serializers.HyperlinkedModelSerializer):
 
 
 class CommentsSerializer(serializers.HyperlinkedModelSerializer):
-    articles = serializers.PrimaryKeyRelatedField(many=True, queryset=Articles.objects.all())
-
     class Meta:
         model = Comments
         fields = ['url', 'id', 'user_id', 'article_id', 'content']
